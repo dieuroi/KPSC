@@ -1,0 +1,73 @@
+"""
+simple_model_config.py
+****
+config for charades dataset
+"""
+from yacs.config import CfgNode as CN
+_C = CN()
+_C.EXP_NAME = "SimpleModel-verbpos"
+
+# training options
+_C.DATASET = CN()
+_C.DATASET.NAME = "Charades"
+_C.DATASET.SHOW_TOP_VOCAB = 1
+_C.DATASET.BATCH_SIZE = 100
+_C.DATASET.MAX_LENGTH = 15
+_C.DATASET.NUM_SEGMENT = 128
+_C.DATASET.DATA_PATH = "/SSD2T/Datasets/Charades/i3d_finetuned"
+_C.DATASET.TRAIN_ANNO_PATH = "../proposal_generation/psvl_anno/charades/charades_train_pseudo_noverbs_supervision_TEP_PS.json"
+_C.DATASET.TEST_ANNO_PATH = "../proposal_generation/psvl_anno/charades/charades_sta_test_noverbs_pos_original_simple_sent.json"
+_C.DATASET.VID_PATH = ""
+
+# model options
+_C.MODEL = CN()
+_C.MODEL.QUERY = CN()
+_C.MODEL.QUERY.EMB_IDIM = -1
+_C.MODEL.QUERY.TRANSFORMER_DIM = 300
+_C.MODEL.QUERY.EMB_ODIM = 300
+_C.MODEL.QUERY.GRU_HDIM = 256
+_C.MODEL.QUERY.TEXT_MODLE_PATH = '../train_results/save/ddp/0.4_noverbs_best.pth'
+_C.MODEL.QUERY.N_CTX = 10
+_C.MODEL.QUERY.n_verb = 5
+_C.MODEL.QUERY.VERB_TOKEN_POSITION = 'middle'
+_C.MODEL.QUERY.Frozen = True
+_C.MODEL.QUERY.finetune = False
+_C.MODEL.QUERY.use_basis_loss = False
+_C.MODEL.QUERY.orthogonal_init = False
+_C.MODEL.QUERY.init = False
+_C.MODEL.QUERY.clipnorm = 1.0
+_C.MODEL.QUERY.reg_w = 1.0
+_C.MODEL.QUERY.TEMPERATURE = 1.0
+_C.MODEL.VIDEO = CN()
+_C.MODEL.VIDEO.IDIM = 1024
+_C.MODEL.VIDEO.GRU_HDIM = 256
+_C.MODEL.VIDEO.ANET_TRANSFORMER_DIM = 500
+_C.MODEL.VIDEO.CHA_TRANSFORMER_DIM = 1024
+_C.MODEL.FUSION = CN()
+_C.MODEL.FUSION.EMB_DIM = 256
+_C.MODEL.FUSION.NUM_HEAD = 8
+_C.MODEL.FUSION.NUM_LAYERS = 3
+_C.MODEL.FUSION.USE_RESBLOCK = False
+_C.MODEL.FUSION.RESBLOCK = CN()
+_C.MODEL.FUSION.RESBLOCK.KERNEL_SIZE = 3
+_C.MODEL.FUSION.RESBLOCK.PADDING = 1
+_C.MODEL.FUSION.RESBLOCK.NB_ITER = 1
+_C.MODEL.FUSION.CONVBNRELU = CN()
+_C.MODEL.FUSION.CONVBNRELU.KERNEL_SIZE = 3
+_C.MODEL.FUSION.CONVBNRELU.PADDING = 1
+
+_C.MODEL.NONLOCAL = CN()
+_C.MODEL.NONLOCAL.NUM_LAYERS = 2
+_C.MODEL.NONLOCAL.NUM_HEAD = 4
+_C.MODEL.NONLOCAL.USE_BIAS = True
+_C.MODEL.NONLOCAL.DROPOUT = 0.0
+
+# training options
+_C.TRAIN = CN()
+#_C.TRAIN.USE_DETERMINISTIC = True
+_C.TRAIN.LR = 0.0004
+_C.TRAIN.fLR = 0.00005
+_C.TRAIN.NUM_EPOCH = 300
+_C.TRAIN.BATCH_SIZE = 100
+_C.TRAIN.NUM_WORKERS = 4
+_C.TRAIN.IOU_THRESH = [0.3,0.5,0.7]

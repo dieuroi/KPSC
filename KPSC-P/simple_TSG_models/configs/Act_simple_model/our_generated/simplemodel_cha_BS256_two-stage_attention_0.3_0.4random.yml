@@ -1,0 +1,50 @@
+DATASET:
+  BATCH_SIZE: 256
+  DATA_PATH: "/SSD2T/Datasets/ActivityNet/C3D"
+  MAX_LENGTH: 77
+  NAME: AnetCap
+  NUM_SEGMENT: 128
+  SHOW_TOP_VOCAB: 10
+  TEST_ANNO_PATH: /SSD2T/Datasets/ActivityNet/annotations/extract_nouns/val_1&2_only_nouns.json
+  TRAIN_ANNO_PATH: ../noun_roi_box_generation/activitynet/generated_nouns/ActivityNet_train_proposal_generation_selected_propoal_downline0.3_upline0.4.json_random0.25_tokens.json
+  VID_PATH: "/SSD2T/Datasets/ActivityNet/C3D"
+EXP_NAME: SimpleModel_twostage_attention
+MODEL:
+  FUSION:
+    CONVBNRELU:
+      KERNEL_SIZE: 3
+      PADDING: 1
+    EMB_DIM: 256
+    NUM_HEAD: 1
+    NUM_LAYERS: 3
+  NONLOCAL:
+    DROPOUT: 0.0
+    NUM_HEAD: 4
+    NUM_LAYERS: 2
+    USE_BIAS: true
+  QUERY:
+    EMB_IDIM: 49408
+    EMB_ODIM: 512
+    GRU_HDIM: 256
+    TEXT_MODLE_PATH: '../train_results/activitynet/train_ddp_nverbs5_ourgeneration_loss4.0_checkpoints/best.pth'
+    N_CTX: 10
+    n_verb: 5
+    Frozen: false
+    finetune: false
+    reg_w: 100.0
+    clipnorm: 3.0
+    VERB_TOKEN_POSITION: 'middle'
+  VIDEO:
+    GRU_HDIM: 256
+    IDIM: 500
+TRAIN:
+  BATCH_SIZE: 128
+  IOU_THRESH:
+  - 0.1
+  - 0.3
+  - 0.5
+  - 0.7
+  LR: 0.0004
+  fLR: 0.00005
+  NUM_EPOCH: 20000
+  NUM_WORKERS: 4
