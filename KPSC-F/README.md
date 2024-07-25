@@ -120,3 +120,6 @@ python main.py --task activitynet --mode test --model_name M_A30_activitynet_T25
 # Charades-STA
 python main.py --task charades --mode test --model_name M_A1_charades_T25
 ```
+
+## TODO
+Full code is coming soon.
